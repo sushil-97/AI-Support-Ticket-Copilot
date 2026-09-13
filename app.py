@@ -224,40 +224,48 @@ st.caption(
     "automatically classify, prioritize and route it."
 )
 
-if "ticket_text" not in st.session_state:
-    st.session_state.ticket_text = ""
+# -----------------------------
+# Ticket Input
+# -----------------------------
 
-col_a, col_b = st.columns([3, 1])
+sample_ticket = (
+    "Our production website is currently unavailable and "
+    "customers are unable to log in. Please investigate urgently."
+)
 
-with col_b:
-    if st.button(
-        "Use Sample Ticket",
-        use_container_width=True
-    ):
-        st.session_state.ticket_text = (
-            "Our production website is currently unavailable and "
-            "customers are unable to log in. Please investigate urgently."
-        )
+# Initialize the text area state
+if "ticket_input" not in st.session_state:
+    st.session_state.ticket_input = ""
+
+# Function used by the sample button
+def load_sample_ticket():
+    st.session_state.ticket_input = sample_ticket
 
 ticket_text = st.text_area(
     "Customer Support Ticket",
     height=190,
-    value=st.session_state.ticket_text,
     placeholder=(
         "Example: Our production website is currently unavailable "
         "and customers are unable to log in. Please investigate urgently."
     ),
-    label_visibility="collapsed",
-    key="ticket_input"
+    key="ticket_input",
+    label_visibility="collapsed"
 )
 
-st.session_state.ticket_text = ticket_text
+col_a, col_b = st.columns([3, 1])
 
 with col_a:
     analyze = st.button(
         "🔍 Analyze Ticket",
         type="primary",
         use_container_width=True
+    )
+
+with col_b:
+    st.button(
+        "Use Sample Ticket",
+        use_container_width=True,
+        on_click=load_sample_ticket
     )
 
 # -----------------------------
