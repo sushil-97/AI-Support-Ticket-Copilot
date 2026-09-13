@@ -224,35 +224,40 @@ st.caption(
     "automatically classify, prioritize and route it."
 )
 
+if "ticket_text" not in st.session_state:
+    st.session_state.ticket_text = ""
+
+col_a, col_b = st.columns([3, 1])
+
+with col_b:
+    if st.button(
+        "Use Sample Ticket",
+        use_container_width=True
+    ):
+        st.session_state.ticket_text = (
+            "Our production website is currently unavailable and "
+            "customers are unable to log in. Please investigate urgently."
+        )
+
 ticket_text = st.text_area(
     "Customer Support Ticket",
     height=190,
+    value=st.session_state.ticket_text,
     placeholder=(
         "Example: Our production website is currently unavailable "
         "and customers are unable to log in. Please investigate urgently."
     ),
-    label_visibility="collapsed"
+    label_visibility="collapsed",
+    key="ticket_input"
 )
 
-col_a, col_b = st.columns([3, 1])
+st.session_state.ticket_text = ticket_text
 
 with col_a:
     analyze = st.button(
         "🔍 Analyze Ticket",
         type="primary",
         use_container_width=True
-    )
-
-with col_b:
-    sample = st.button(
-        "Use Sample Ticket",
-        use_container_width=True
-    )
-
-if sample:
-    ticket_text = (
-        "Our production website is currently unavailable and "
-        "customers are unable to log in. Please investigate urgently."
     )
 
 # -----------------------------
